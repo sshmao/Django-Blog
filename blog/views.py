@@ -41,7 +41,7 @@ class IndexView(ListViewPage):
     model = Post
     template_name = 'blog/index.html'
     context_object_name = 'post_list'
-    paginate_by = 2
+    paginate_by = 3
 
 
 
@@ -125,9 +125,11 @@ class ArchivesView(generic.ListView):
     context_object_name = 'post_list'
 
     def get_queryset(self, **kwargs):
-        return Post.objects.filter(created_time__year=self.kwargs.get('year'),
+        return super(ArchivesView,self).get_queryset.filter(created_time__year=self.kwargs.get('year'),
             created_time__month=self.kwargs.get('month')
             ).order_by('-created_time')
+
+
 class CategoryView(generic.ListView):
     model = Post
     template_name = 'blog/index.html'

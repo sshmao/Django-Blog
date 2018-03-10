@@ -1,16 +1,17 @@
-from django.db import models
-
-from django.contrib.auth.models import User
-
-from django.shortcuts import reverse
-
-from django.utils.html import strip_tags
-
+"""
+BlogApp的model模型
+"""
 import markdown
-# Create your models here.
+from django.db import models
+from django.contrib.auth.models import User
+from django.shortcuts import reverse
+from django.utils.html import strip_tags
 
 
 class Category(models.Model):
+    """
+    分类
+    """
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -18,6 +19,9 @@ class Category(models.Model):
 
 
 class Tag(models.Model):
+    """
+    标签
+    """
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -25,6 +29,9 @@ class Tag(models.Model):
 
 
 class Post(models.Model):
+    """
+    文章
+    """
     title = models.CharField(max_length=70)
     body = models.TextField()
     # auto_now_add(自动创建现在时间,不可修改)
@@ -54,9 +61,7 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-created_time']
-
     def save(self, *args, **kwargs):
-
         if not self.excerpt:
             # 首先实例化一个markdown类,用于渲染body的文本
             md = markdown.Markdown(extensions=[
@@ -69,6 +74,4 @@ class Post(models.Model):
             self.excerpt = strip_tags(md.convert(self.body))[:54]
         else:
             self.excerpt = 'save函数自动改动的值'
-
-
         super(Post,self).save(*args, **kwargs)

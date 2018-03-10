@@ -16,6 +16,14 @@
         <div class="entry-content clearfix">
             {{ post.body|safe }}
         </div>
+        <div class="widget-tag-cloud">
+                <ul>
+                    标签：
+                    {% for tag in post.tags.all %}
+                        <li><a href="{% url 'blog:tag' tag.pk %}"># {{ tag.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
     </article>
     <section class="comment-area" id="comment-area">
 
@@ -72,3 +80,5 @@
         {{ post.toc|safe }}
     </div>
 {% endblock toc %}
+
+
